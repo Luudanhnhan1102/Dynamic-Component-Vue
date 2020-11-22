@@ -2,28 +2,30 @@
   <div id="dynamic-component-demo">
     <button
       v-for="tab in tabs"
-      v-bind:key="tab"
-      v-bind:class="['tab-button', {active: currentTab === tab}]"
-      v-on:click="currentTab = tab"
+      :key="tab"
+      :class="['tab-button', {active: currentTab === tab}]"
+      @click="currentTab = tab"
     >
       {{ tab }}
     </button>
 
     <keep-alive>
-      <component v-bind:is="currentTabComponent" class="tab"></component>
+      <component :is="currentTabComponent" class="tab"></component>
     </keep-alive>
   </div>
 </template>
 
 <script>
-import TabPosts from "./components/TabPosts.vue";
+import Posts from "./components/TabPosts.vue";
+import Archive from "./components/TabArchive.vue";
 
 export default {
   name: "App",
-  components: {
-    TabPosts,
-  },
   el: "#dynamic-component-demo",
+  components: {
+    Posts,
+    Archive,
+  },
   data() {
     return {
       currentTab: "Posts",
@@ -32,21 +34,13 @@ export default {
   },
   computed: {
     currentTabComponent: function() {
-      return "tab-" + this.currentTab.toLowerCase();
+      return this.currentTab.toLowerCase();
     },
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 .tab-button {
   padding: 6px 10px;
   border-top-left-radius: 3px;
